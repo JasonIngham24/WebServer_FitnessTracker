@@ -53,7 +53,6 @@ function handleSubmit() {
 
   if (isDistanceActivity.value) {
     newActivity.distance = distance.value
-    newActivity.distanceUnit = 'Miles'
   }
 
   emit('add-activity', newActivity)
@@ -92,7 +91,7 @@ function handleSubmit() {
     <div class="field" v-if="isDistanceActivity">
       <label class="label">Distance (Miles)</label>
       <div class="control">
-        <input class="input" type="number" v-model.number="distance" />
+        <input class="input" type="number" v-model.number="distance" step="any" />
       </div>
     </div>
 

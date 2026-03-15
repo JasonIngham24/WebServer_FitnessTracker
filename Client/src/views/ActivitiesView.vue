@@ -45,6 +45,14 @@ function shareActivity(activity: Activity) {
   selectedActivity.value = activity
   showShareModal.value = true
 }
+
+function formatDistance(distanceInMiles: number): string {
+  if (distanceInMiles < 1) {
+    const feet = Math.round(distanceInMiles * 5280)
+    return `${feet} feet`
+  }
+  return `${distanceInMiles.toFixed(2)} miles`
+}
 </script>
 
 <template>
@@ -77,7 +85,7 @@ function shareActivity(activity: Activity) {
           <strong>Duration:</strong> {{ activity.duration }} minutes
           <br />
           <div v-if="activity.distance">
-            <strong>Distance:</strong> {{ activity.distance }} Miles
+            <strong>Distance:</strong> {{ formatDistance(activity.distance) }}
             <br />
           </div>
           <time :datetime="activity.date">{{ activity.date }}</time>
