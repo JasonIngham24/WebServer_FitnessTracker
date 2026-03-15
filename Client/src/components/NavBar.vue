@@ -27,12 +27,8 @@ const isActive = ref(false);
         Home
       </RouterLink>
 
-      <RouterLink to="/my-activity" class="navbar-item">
+      <RouterLink to="/activities" class="navbar-item">
         My Activity
-      </RouterLink>
-
-      <RouterLink to="/statistics" class="navbar-item">
-        Statistics
       </RouterLink>
 
       <RouterLink to="/friends" class="navbar-item">
