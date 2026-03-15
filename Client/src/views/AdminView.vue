@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { users } from '../data/users'
+import { users as initialUsers } from '../data/users'
 import type { User } from '../types/index'
+import { ref } from 'vue'
+
+const users = ref<User[]>(initialUsers)
+const editingUser = ref<User | null>(null)
 
 function addUser() {
   // For simplicity, we'll just log to console.
@@ -9,11 +13,22 @@ function addUser() {
 }
 
 function editUser(user: User) {
-  console.log('Edit user', user)
+  editingUser.value = { ...user }
 }
 
 function deleteUser(user: User) {
-  console.log('Delete user', user)
+  const index = users.value.findIndex((u) => u.id === user.id)
+  if (index !== -1) {
+    users.value.splice(index, 1)
+  }
+}
+
+function handleUpdateUser(updatedUser: User) {
+  const index = users.value.findIndex((u) => u.id === updatedUser.id)
+  if (index !== -1) {
+    users.value[index] = updatedUser
+  }
+  editingUser.value = null
 }
 </script>
 
@@ -49,5 +64,60 @@ function deleteUser(user: User) {
       </tbody>
     </table>
     <button class="button is-primary" @click="addUser">Add User</button>
+
+    <div v-if="editingUser" class="modal is-active">
+      <div class="modal-background" @click="editingUser = null"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit User</p>
+          <button class="delete" aria-label="close" @click="editingUser = null"></button>
+        </header>
+        <section class="modal-card-body">
+          <form @submit.prevent="handleUpdateUser(editingUser!)">
+            <div class="field">
+              <label class="label">First Name</label>
+              <div class="control">
+                <input class="input" type="text" v-model="editingUser!.firstName" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Last Name</label>
+              <div class="control">
+                <input class="input" type="text" v-model="editingUser!.lastName" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Username</label>
+              <div class="control">
+                <input class="input" type="text" v-model="editingUser!.username" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control">
+                <input class="input" type="email" v-model="editingUser!.email" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Role</label>
+              <div class="control">
+                <div class="select">
+                  <select v-model="editingUser!.role">
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" @click="handleUpdateUser(editingUser!)">
+            Save changes
+          </button>
+          <button class="button" @click="editingUser = null">Cancel</button>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
