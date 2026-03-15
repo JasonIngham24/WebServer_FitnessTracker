@@ -18,7 +18,7 @@ function deleteUser(user: User) {
 </script>
 
 <template>
-    <div>
+    <div class="container">
         <h1 class="title">Admin</h1>
         <h2 class="subtitle">Users</h2>
         <table class="table is-fullwidth">
