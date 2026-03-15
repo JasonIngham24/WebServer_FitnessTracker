@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import { users } from '@/data/users';
+import type { User } from '@/models/user';
+
+function addUser() {
+    // For simplicity, we'll just log to console.
+    // In a real app, this would open a form.
+    console.log('Add user');
+}
+
+function editUser(user: User) {
+    console.log('Edit user', user);
+}
+
+function deleteUser(user: User) {
+    console.log('Delete user', user);
+}
+</script>
+
 <template>
     <div>
         <h1 class="title">Admin</h1>
@@ -27,22 +46,3 @@
         <button class="button is-primary" @click="addUser">Add User</button>
     </div>
 </template>
-
-<script setup lang="ts">
-import { users } from '@/data/users';
-import type { User } from '@/models/user';
-
-function addUser() {
-    // For simplicity, we'll just log to console.
-    // In a real app, this would open a form.
-    console.log('Add user');
-}
-
-function editUser(user: User) {
-    console.log('Edit user', user);
-}
-
-function deleteUser(user: User) {
-    console.log('Delete user', user);
-}
-</script>

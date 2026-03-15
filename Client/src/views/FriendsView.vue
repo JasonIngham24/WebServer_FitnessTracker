@@ -8,6 +8,7 @@ function getFriendActivities(friendId: number) {
     return activities.filter((a) => a.userId === friendId);
 }
 </script>
+
 <template>
     <div>
         <h1 class="title">Friends</h1>

@@ -1,3 +1,31 @@
+
+<script setup lang="ts">
+import { useSession } from '../services/session';
+import { activities } from '../data/activities';
+import type { Activity } from '../models/activity';
+import { computed } from 'vue';
+
+const session = useSession();
+const myActivities = computed(() => {
+    if (!session.user) {
+        return [];
+    }
+    return activities.filter((a) => a.userId === session.user?.id);
+});
+
+function addActivity() {
+    console.log('Add activity');
+}
+
+function editActivity(activity: Activity) {
+    console.log('Edit activity', activity);
+}
+
+function deleteActivity(activity: Activity) {
+    console.log('Delete activity', activity);
+}
+</script>
+
 <template>
     <div>
         <h1 class="title">My Activities</h1>
@@ -25,30 +53,3 @@
         <button class="button is-primary" @click="addActivity">Add Activity</button>
     </div>
 </template>
-
-<script setup lang="ts">
-import { useSession } from '@/services/session';
-import { activities } from '@/data/activities';
-import type { Activity } from '@/models/activity';
-import { computed } from 'vue';
-
-const session = useSession();
-const myActivities = computed(() => {
-    if (!session.user) {
-        return [];
-    }
-    return activities.filter((a) => a.userId === session.user?.id);
-});
-
-function addActivity() {
-    console.log('Add activity');
-}
-
-function editActivity(activity: Activity) {
-    console.log('Edit activity', activity);
-}
-
-function deleteActivity(activity: Activity) {
-    console.log('Delete activity', activity);
-}
-</script>
