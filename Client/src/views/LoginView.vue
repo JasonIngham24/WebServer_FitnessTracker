@@ -25,8 +25,8 @@ function onLogin() {
                 <div class="select">
                     <select v-model="selectedUser">
                         <option disabled value="">Please select one</option>
-                        <option v-for="user in users" :key="user.id" :value="user.name">
-                            {{ user.name }}
+                        <option v-for="user in users" :key="user.id" :value="user.username">
+                            {{ user.username }}
                         </option>
                     </select>
                 </div>

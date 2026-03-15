@@ -50,7 +50,7 @@ function deleteActivity(activity: Activity) {
             <div class="card-content">
                 <div class="media">
                     <div class="media-content">
-                        <p class="title is-4">{{ session.user?.name}}</p>
+                        <p class="title is-4">{{ session.user?.username}}</p>
                     </div>
                 </div>
 

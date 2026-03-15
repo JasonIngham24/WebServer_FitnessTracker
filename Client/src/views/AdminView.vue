@@ -25,8 +25,10 @@ function deleteUser(user: User) {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Username</th>
+                    <th>Email</th>
                     <th>Role</th>
                     <th>Actions</th>
                 </tr>
@@ -34,7 +36,10 @@ function deleteUser(user: User) {
             <tbody>
                 <tr v-for="user in users" :key="user.id">
                     <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
                     <td>
                         <button class="button is-small is-info" @click="editUser(user)">Edit</button>
