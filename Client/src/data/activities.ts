@@ -9,6 +9,7 @@ export const activities: Activity[] = [
         distance: 5,
         calories: 300,
         date: '2026-03-15',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 2,
@@ -18,6 +19,7 @@ export const activities: Activity[] = [
         distance: 20,
         calories: 500,
         date: '2026-03-14',
+        imageUrl: 'https://plus.unsplash.com/premium_photo-1713184149461-69b0abeb3daa?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 3,
@@ -26,6 +28,7 @@ export const activities: Activity[] = [
         duration: 45,
         calories: 400,
         date: '2026-03-15',
+        imageUrl: 'https://images.unsplash.com/photo-1438029071396-1e831a7fa6d8?q=80&w=2650&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 4,
@@ -34,6 +37,7 @@ export const activities: Activity[] = [
         duration: 60,
         calories: 150,
         date: '2026-03-14',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 5,
@@ -42,6 +46,7 @@ export const activities: Activity[] = [
         duration: 60,
         calories: 200,
         date: '2026-03-15',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 6,
@@ -51,6 +56,7 @@ export const activities: Activity[] = [
         distance: 6,
         calories: 350,
         date: '2026-03-13',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 7,
@@ -60,6 +66,7 @@ export const activities: Activity[] = [
         distance: 7,
         calories: 400,
         date: '2026-03-12',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 8,
@@ -69,6 +76,7 @@ export const activities: Activity[] = [
         distance: 25,
         calories: 550,
         date: '2026-03-11',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 9,
@@ -77,6 +85,7 @@ export const activities: Activity[] = [
         duration: 60,
         calories: 150,
         date: '2026-03-10',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
         id: 10,
@@ -86,5 +95,6 @@ export const activities: Activity[] = [
         distance: 5,
         calories: 300,
         date: '2026-03-09',
+        imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     }
 ];

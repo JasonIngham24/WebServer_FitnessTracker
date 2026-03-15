@@ -9,16 +9,28 @@ const date = ref(new Date().toISOString().substr(0, 10));
 
 const activityOptions = ['Running', 'Walking', 'Biking', 'Swimming', 'Weightlifting', 'Yoga'];
 
+const activityImageMap: { [key: string]: string } = {
+  Running: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Walking: 'https://images.unsplash.com/photo-1487956382158-bb926046304a?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Biking: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Swimming: 'https://images.unsplash.com/photo-1438029071396-1e831a7fa6d8?q=80&w=2650&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Weightlifting: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  Yoga: 'https://plus.unsplash.com/premium_photo-1661777196224-bfda51e61cfd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+};
+
 function handleSubmit() {
   if (!activityType.value || duration.value <= 0) {
     alert('Please fill in all fields.');
     return;
   }
 
+  const imageUrl = activityImageMap[activityType.value];
+
   const newActivity = {
     activity: activityType.value,
     duration: duration.value,
     date: date.value,
+    imageUrl: imageUrl,
   };
 
   emit('add-activity', newActivity);

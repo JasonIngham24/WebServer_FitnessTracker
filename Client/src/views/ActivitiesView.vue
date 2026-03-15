@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { useSession } from '../services/session';
 import { activities } from '../data/activities';
@@ -42,37 +41,47 @@ function deleteActivity(activity: Activity) {
 </script>
 
 <template>
-    <div class="container">
-        <h1 class="title">My Activities</h1>
-        <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
-        <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
-
-        <div class="card" v-for="activity in myActivities" :key="activity.id">
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-4">{{ session.user?.username}}</p>
-                    </div>
-                </div>
-
-                <div class="content">
-                    {{ activity.activity }}
-                    <br>
-                    <strong>Duration:</strong> {{ activity.duration }} minutes
-                    <br>
-                    <time :datetime="activity.date">{{ activity.date }}</time>
-                </div>
+  <div class="container">
+    <h1 class="title">My Activities</h1>
+    <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
+    <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
+    <div class="card" v-for="activity in myActivities" :key="activity.id">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
             </div>
-            <footer class="card-footer">
-                <a href="#" class="card-footer-item" @click.prevent="editActivity(activity)">Edit</a>
-                <a href="#" class="card-footer-item" @click.prevent="deleteActivity(activity)">Delete</a>
-            </footer>
+            <div class="media-content">
+              <p class="title is-4">{{ session.user?.firstName }} {{ session.user?.lastName }}</p>
+              <p class="subtitle is-6">@{{ session.user?.username }}</p>
+              <div class="card-image" v-if="activity.imageUrl">
+                <figure class="image">
+                  <img :src="activity.imageUrl" alt="Activity image" class = "activity-image">
+                </figure>
+              </div>
+            </div>
+          </div>
+          <div class="content">
+            {{ activity.activity }}
+            <br>
+            <strong>Duration:</strong> {{ activity.duration }} minutes
+            <br>
+            <time :datetime="activity.date">{{ activity.date }}</time>
         </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item" @click.prevent="editActivity(activity)">Edit</a>
+        <a href="#" class="card-footer-item" @click.prevent="deleteActivity(activity)">Delete</a>
+      </footer>
     </div>
+  </div>
 </template>
 
 <style scoped>
 .card {
     margin-top: 1rem;
+}
+.activity-image {
+    object-fit: cover;
+    max-height: 100em;
 }
 </style>
