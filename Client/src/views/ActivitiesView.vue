@@ -3,9 +3,12 @@
 import { useSession } from '../services/session';
 import { activities } from '../data/activities';
 import type { Activity } from '../models/activity';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import ActivityForm from '../components/ActivityForm.vue';
 
 const session = useSession();
+const showAddActivityForm = ref(false);
+
 const myActivities = computed(() => {
     if (!session.user) {
         return [];
@@ -14,7 +17,19 @@ const myActivities = computed(() => {
 });
 
 function addActivity() {
-    console.log('Add activity');
+    showAddActivityForm.value = !showAddActivityForm.value;
+}
+
+function handleNewActivity(newActivity: Omit<Activity, 'id' | 'userId'>) {
+    const user = session.user;
+    if (user) {
+        activities.push({
+            ...newActivity,
+            id: activities.length + 1,
+            userId: user.id,
+        });
+        showAddActivityForm.value = false;
+    }
 }
 
 function editActivity(activity: Activity) {
@@ -28,28 +43,35 @@ function deleteActivity(activity: Activity) {
 
 <template>
     <div>
-        <h1 class="title">My Activities</h1>
-        <table class="table is-fullwidth">
-            <thead>
-                <tr>
-                    <th>Activity</th>
-                    <th>Duration (minutes)</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="activity in myActivities" :key="activity.id">
-                    <td>{{ activity.activity }}</td>
-                    <td>{{ activity.duration }}</td>
-                    <td>{{ activity.date }}</td>
-                    <td>
-                        <button class="button is-small is-info" @click="editActivity(activity)">Edit</button>
-                        <button class="button is-small is-danger" @click="deleteActivity(activity)">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button class="button is-primary" @click="addActivity">Add Activity</button>
+        <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
+        <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
+
+        <div class="card" v-for="activity in myActivities" :key="activity.id">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-4">{{ session.user?.name}}</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    {{ activity.activity }}
+                    <br>
+                    <strong>Duration:</strong> {{ activity.duration }} minutes
+                    <br>
+                    <time :datetime="activity.date">{{ activity.date }}</time>
+                </div>
+            </div>
+            <footer class="card-footer">
+                <a href="#" class="card-footer-item" @click.prevent="editActivity(activity)">Edit</a>
+                <a href="#" class="card-footer-item" @click.prevent="deleteActivity(activity)">Delete</a>
+            </footer>
+        </div>
     </div>
 </template>
+
+<style scoped>
+.card {
+    margin-top: 1rem;
+}
+</style>
