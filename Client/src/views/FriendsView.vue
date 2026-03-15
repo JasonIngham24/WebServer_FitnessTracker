@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import { getMyFriends } from '@/services/session';
+import { activities } from '@/data/activities';
+
+const friends = getMyFriends();
+
+function getFriendActivities(friendId: number) {
+    return activities.filter((a) => a.userId === friendId);
+}
+</script>
 <template>
     <div>
         <h1 class="title">Friends</h1>
@@ -22,14 +32,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import { getMyFriends } from '@/services/session';
-import { activities } from '@/data/activities';
-
-const friends = getMyFriends();
-
-function getFriendActivities(friendId: number) {
-    return activities.filter((a) => a.userId === friendId);
-}
-</script>
