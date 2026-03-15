@@ -17,24 +17,28 @@ function onLogin() {
 </script>
 
 <template>
-    <div class="container">
-        <h1 class="title">Login</h1>
-        <div class="field">
-            <label class="label">Select User</label>
-            <div class="control">
-                <div class="select">
-                    <select v-model="selectedUser">
-                        <option disabled value="">Please select one</option>
-                        <option v-for="user in users" :key="user.id" :value="user.username">
-                            {{ user.username }}
-                        </option>
-                    </select>
+    <div class="columns is-centered">
+        <div class="column is-half">
+            <div class="container">
+                <h1 class="title">Login</h1>
+                <div class="field">
+                    <label class="label">Select User</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select v-model="selectedUser">
+                                <option disabled value="">Please select one</option>
+                                <option v-for="user in users" :key="user.id" :value="user.username">
+                                    {{ user.username }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="field">
-            <div class="control">
-                <button class="button is-primary" @click="onLogin">Login</button>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary" @click="onLogin">Login</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
