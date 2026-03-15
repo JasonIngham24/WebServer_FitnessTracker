@@ -11,7 +11,7 @@ export function useSession() {
 }
 
 export function login(name: string) {
-    const user = users.find((u) => u.name === name );
+    const user = users.find((u) => u.username === name );
     if (user) {
         session.user = user;
     }
