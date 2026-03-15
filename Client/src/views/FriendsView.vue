@@ -5,7 +5,7 @@ import { activities } from '@/data/activities';
 const friends = getMyFriends();
 
 function getFriendActivities(friendId: number) {
-    return activities.filter((a) => a.userId === friendId);
+    return activities.value.filter((a) => a.userId === friendId);
 }
 </script>
 
