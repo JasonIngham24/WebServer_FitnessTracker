@@ -4,15 +4,18 @@ import { activities } from '../data/activities';
 import type { Activity } from '../models/activity';
 import { computed, ref } from 'vue';
 import ActivityForm from '../components/ActivityForm.vue';
+import ShareActivity from '../components/ShareActivity.vue';
 
 const session = useSession();
 const showAddActivityForm = ref(false);
+const showShareModal = ref(false);
+const selectedActivity = ref<Activity | null>(null);
 
 const myActivities = computed(() => {
     if (!session.user) {
         return [];
     }
-    return activities.filter((a) => a.userId === session.user?.id);
+    return activities.value.filter((a) => a.userId === session.user?.id);
 });
 
 function addActivity() {
@@ -22,9 +25,9 @@ function addActivity() {
 function handleNewActivity(newActivity: Omit<Activity, 'id' | 'userId'>) {
     const user = session.user;
     if (user) {
-        activities.push({
+        activities.value.push({
             ...newActivity,
-            id: activities.length + 1,
+            id: activities.value.length + 1,
             userId: user.id,
         });
         showAddActivityForm.value = false;
@@ -36,7 +39,15 @@ function editActivity(activity: Activity) {
 }
 
 function deleteActivity(activity: Activity) {
-    console.log('Delete activity', activity);
+    const index = activities.value.findIndex((a) => a.id === activity.id);
+    if (index !== -1) {
+        activities.value.splice(index, 1);
+    }
+}
+
+function shareActivity(activity: Activity) {
+    selectedActivity.value = activity;
+    showShareModal.value = true;
 }
 </script>
 
@@ -45,6 +56,7 @@ function deleteActivity(activity: Activity) {
     <h1 class="title">My Activities</h1>
     <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
     <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
+    <ShareActivity v-if="showShareModal && selectedActivity" :activity="selectedActivity" @close="showShareModal = false" />
     <div class="card" v-for="activity in myActivities" :key="activity.id">
       <div class="card-content">
         <div class="media">
@@ -71,6 +83,7 @@ function deleteActivity(activity: Activity) {
       <footer class="card-footer">
         <a href="#" class="card-footer-item" @click.prevent="editActivity(activity)">Edit</a>
         <a href="#" class="card-footer-item" @click.prevent="deleteActivity(activity)">Delete</a>
+        <a href="#" class="card-footer-item" @click.prevent="shareActivity(activity)">Share</a>
       </footer>
     </div>
   </div>

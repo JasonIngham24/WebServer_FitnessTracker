@@ -1,6 +1,7 @@
 import type { Activity } from '../models/activity';
+import { ref } from 'vue';
 
-export const activities: Activity[] = [
+export const activities = ref<Activity[]>([
     {
         id: 1,
         userId: 1,
@@ -97,4 +98,4 @@ export const activities: Activity[] = [
         date: '2026-03-09',
         imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     }
-];
+]);

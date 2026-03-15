@@ -10,7 +10,7 @@ const userActivities = computed(() => {
   if (!session.user) {
     return [];
   }
-  return activities.filter((activity) => activity.userId === session.user?.id);
+  return activities.value.filter((activity) => activity.userId === session.user?.id);
 });
 
 const today = new Date('2026-03-15');
