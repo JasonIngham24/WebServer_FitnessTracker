@@ -48,7 +48,7 @@ function shareActivity(activity: Activity) {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container notification is-dark">
     <h1 class="title">My Activities</h1>
     <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
     <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
@@ -80,8 +80,18 @@ function shareActivity(activity: Activity) {
         </div>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item" @click.prevent="deleteActivity(activity)">Delete</a>
-        <a href="#" class="card-footer-item" @click.prevent="shareActivity(activity)">Share</a>
+        <a
+          href="#"
+          class="notification is-danger card-footer-item text-black"
+          @click.prevent="deleteActivity(activity)"
+          >Delete</a
+        >
+        <a
+          href="#"
+          class="notification is-info card-footer-item text-black"
+          @click.prevent="shareActivity(activity)"
+          >Share</a
+        >
       </footer>
     </div>
   </div>
@@ -91,8 +101,14 @@ function shareActivity(activity: Activity) {
 .card {
   margin-top: 1rem;
 }
+.card-footer a {
+  margin-bottom: 0em;
+}
 .activity-image {
   object-fit: cover;
-  max-height: 100em;
+  max-height: 15em;
+}
+.card-footer-item {
+  text-decoration: none;
 }
 </style>

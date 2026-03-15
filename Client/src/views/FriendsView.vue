@@ -10,7 +10,7 @@ function getFriendActivities(friendId: number) {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container notification is-dark">
     <h1 class="title">Friends' Activities</h1>
     <div v-for="friend in friends" :key="friend.id">
       <div v-for="activity in getFriendActivities(friend.id)" :key="activity.id" class="card">
@@ -46,6 +46,6 @@ function getFriendActivities(friendId: number) {
 }
 .activity-image {
   object-fit: cover;
-  max-height: 100em;
+  max-height: 15em;
 }
 </style>
