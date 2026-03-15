@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getMyFriends } from '@/services/session'
-import { activities } from '@/data/activities'
+import { getMyFriends } from '../services/session'
+import { activities } from '../data/activities'
 
 const friends = getMyFriends()
 

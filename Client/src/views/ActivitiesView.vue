@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSession } from '../services/session'
 import { activities } from '../data/activities'
-import type { Activity } from '../models/activity'
+import type { Activity } from '../types/index'
 import { computed, ref } from 'vue'
 import ActivityForm from '../components/ActivityForm.vue'
 import ShareActivity from '../components/ShareActivity.vue'

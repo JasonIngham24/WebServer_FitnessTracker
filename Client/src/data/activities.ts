@@ -1,4 +1,4 @@
-import type { Activity } from '../models/activity'
+import type { Activity } from '../types/index'
 import { ref } from 'vue'
 
 export const activities = ref<Activity[]>([
