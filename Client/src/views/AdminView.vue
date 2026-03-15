@@ -16,7 +16,6 @@
                 <tr v-for="user in users" :key="user.id">
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.username }}</td>
                     <td>{{ user.role }}</td>
                     <td>
                         <button class="button is-small is-info" @click="editUser(user)">Edit</button>

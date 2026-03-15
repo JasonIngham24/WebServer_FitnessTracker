@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { login } from '@/services/session';
+import { login, getAllUsers } from '@/services/session';
 
 const router = useRouter();
-const username = ref('');
-const password = ref('');
+const users = getAllUsers();
+const selectedUser = ref('');
 
 function onLogin() {
-    if (login(username.value, password.value)) {
+    if (login(selectedUser.value)) {
         router.push('/');
     } else {
-        alert('Invalid credentials');
+        alert('Please select a user');
     }
 }
 </script>
@@ -20,15 +20,16 @@ function onLogin() {
     <div class="container">
         <h1 class="title">Login</h1>
         <div class="field">
-            <label class="label">Username</label>
+            <label class="label">Select User</label>
             <div class="control">
-                <input class="input" type="text" v-model="username" />
-            </div>
-        </div>
-        <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-                <input class="input" type="password" v-model="password" />
+                <div class="select">
+                    <select v-model="selectedUser">
+                        <option disabled value="">Please select one</option>
+                        <option v-for="user in users" :key="user.id" :value="user.name">
+                            {{ user.name }}
+                        </option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="field">

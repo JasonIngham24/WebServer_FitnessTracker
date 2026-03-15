@@ -10,8 +10,8 @@ export function useSession() {
     return readonly(session);
 }
 
-export function login(username: string, password?: string) {
-    const user = users.find((u) => u.username === username && u.password === password);
+export function login(name: string) {
+    const user = users.find((u) => u.name === name );
     if (user) {
         session.user = user;
     }
@@ -27,4 +27,8 @@ export function getMyFriends() {
         return [];
     }
     return users.filter((u) => session.user?.friends.includes(u.id));
+}
+
+export function getAllUsers() {
+    return users;
 }
