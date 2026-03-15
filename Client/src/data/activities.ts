@@ -29,6 +29,7 @@ export const activities = ref<Activity[]>([
     userId: 2,
     activity: 'Swimming',
     duration: 45,
+    distance: 1,
     calories: 400,
     date: '2026-03-15',
     imageUrl:
@@ -39,6 +40,7 @@ export const activities = ref<Activity[]>([
     userId: 2,
     activity: 'Yoga',
     duration: 60,
+    distance: 0,
     calories: 150,
     date: '2026-03-14',
     imageUrl:
@@ -49,6 +51,7 @@ export const activities = ref<Activity[]>([
     userId: 3,
     activity: 'Weightlifting',
     duration: 60,
+    distance: 0,
     calories: 200,
     date: '2026-03-15',
     imageUrl:
