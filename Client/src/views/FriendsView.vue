@@ -32,6 +32,10 @@ function getFriendActivities(friendId: number) {
             <br />
             <strong>Duration:</strong> {{ activity.duration }} minutes
             <br />
+            <div v-if="activity.distance">
+              <strong>Distance:</strong> {{ activity.distance }} Miles
+              <br />
+            </div>
             <time :datetime="activity.date">{{ activity.date }}</time>
           </div>
         </div>
