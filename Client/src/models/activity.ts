@@ -3,5 +3,7 @@ export interface Activity {
     userId: number;
     activity: String;
     duration: number;
+    distance?: number;
+    calories: number;
     date: string;
 }
