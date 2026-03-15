@@ -32,10 +32,6 @@ function onLogout() {
 
   <div id="navbarBasicExample" class="navbar-menu" :class="{ 'is-active': isActive }">
     <div class="navbar-start">
-      <RouterLink to="/" class="navbar-item">
-        Home
-      </RouterLink>
-
       <RouterLink to="/activities" class="navbar-item" v-if="session.user">
         My Activity
       </RouterLink>
