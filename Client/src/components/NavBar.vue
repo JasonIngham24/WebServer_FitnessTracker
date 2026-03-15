@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSession, logout } from '@/services/session';
+import { useSession, logout } from '../services/session';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
