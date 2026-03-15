@@ -42,7 +42,8 @@ function deleteActivity(activity: Activity) {
 </script>
 
 <template>
-    <div>
+    <div class="container">
+        <h1 class="title">My Activities</h1>
         <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
         <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
 
