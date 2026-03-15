@@ -10,7 +10,7 @@ function getFriendActivities(friendId: number) {
 </script>
 
 <template>
-    <div>
+    <div class="container">
         <h1 class="title">Friends</h1>
         <div v-for="friend in friends" :key="friend.id">
             <h2 class="subtitle">{{ friend.username }}'s Activities</h2>
