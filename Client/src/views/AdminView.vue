@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { users } from '@/data/users'
-import type { User } from '@/models/user'
+import { users } from '../data/users'
+import type { User } from '../types/index'
 
 function addUser() {
   // For simplicity, we'll just log to console.

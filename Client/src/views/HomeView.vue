@@ -2,7 +2,7 @@
 import { useSession } from '../services/session'
 import { computed } from 'vue'
 import { activities } from '../data/activities'
-import type { Activity } from '../models/activity'
+import type { Activity } from '../types/index'
 
 const session = useSession()
 

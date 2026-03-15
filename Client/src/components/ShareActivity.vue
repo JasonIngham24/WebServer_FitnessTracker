@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Activity } from '../models/activity';
-import { useSession } from '../services/session';
-import { users } from '../data/users';
+import { ref } from 'vue'
+import type { Activity, User } from '../types/index'
+import { useSession } from '../services/session'
+import { users } from '../data/users'
 
 const props = defineProps<{
-  activity: Activity;
-}>();
+  activity: Activity
+}>()
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
-const session = useSession();
-const friends = ref(users.filter(u => session.user?.friends.includes(u.id)));
-const selectedFriend = ref<number | null>(null);
+const session = useSession()
+const friends = ref<User[]>(users.filter((u) => session.user?.friends.includes(u.id)))
+const selectedFriend = ref<number | null>(null)
 
 function share() {
   if (selectedFriend.value) {
-    const friend = friends.value.find(f => f.id === selectedFriend.value);
+    const friend = friends.value.find((f) => f.id === selectedFriend.value)
     if (friend) {
-      alert(`Shared ${props.activity.activity} with ${friend.username}`);
-      emit('close');
+      alert(`Shared ${props.activity.activity} with ${friend.username}`)
+      emit('close')
     }
   } else {
-    alert('Please select a friend to share with.');
+    alert('Please select a friend to share with.')
   }
 }
 </script>
