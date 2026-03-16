@@ -84,7 +84,7 @@ const allTimeStats = computed(() => calculateStats(userActivities.value))
     <div v-if="session.user" class="notification is-dark fixed-grid has-1-cols">
       <div class="notification is-info">
         <h2 class="title">Today's Activity</h2>
-        <p>Distance: {{ dailyStats.totalDistance }} km</p>
+        <p>Distance: {{ dailyStats.totalDistance }} mi</p>
         <p>Duration: {{ dailyStats.totalDuration }} minutes</p>
         <p>Most Frequent Activity: {{ dailyStats.mostFrequentActivity }}</p>
         <p>Calories Burned: {{ dailyStats.totalCalories }}</p>
@@ -92,7 +92,7 @@ const allTimeStats = computed(() => calculateStats(userActivities.value))
 
       <div class="notification is-link">
         <h2 class="title">This Week's Activity</h2>
-        <p>Distance: {{ weeklyStats.totalDistance }} km</p>
+        <p>Distance: {{ weeklyStats.totalDistance }} mi</p>
         <p>Duration: {{ weeklyStats.totalDuration }} minutes</p>
         <p>Most Frequent Activity: {{ weeklyStats.mostFrequentActivity }}</p>
         <p>Calories Burned: {{ weeklyStats.totalCalories }}</p>
@@ -100,7 +100,7 @@ const allTimeStats = computed(() => calculateStats(userActivities.value))
 
       <div class="notification is-warning">
         <h2 class="title">All Time Activity</h2>
-        <p>Distance: {{ allTimeStats.totalDistance }} km</p>
+        <p>Distance: {{ allTimeStats.totalDistance }} mi</p>
         <p>Duration: {{ allTimeStats.totalDuration }} minutes</p>
         <p>Most Frequent Activity: {{ allTimeStats.mostFrequentActivity }}</p>
         <p>Calories Burned: {{ allTimeStats.totalCalories }}</p>
