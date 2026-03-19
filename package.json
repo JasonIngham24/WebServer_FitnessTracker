@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/JasonIngham24/Web-Server-Final-Project/issues"
   },
-  "homepage": "https://github.com/JasonIngham24/Web-Server-Final-Project#readme"
+  "homepage": "https://github.com/JasonIngham24/Web-Server-Final-Project#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6"
+  }
 }
