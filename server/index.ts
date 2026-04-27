@@ -1,6 +1,7 @@
 import express from "express"
 import usersController from "./controllers/users"
 import activitiesController from "./controllers/activities"
+import friendsController from "./controllers/friends"
 import { DataEnvelope } from "./types/dataEnvelopes"
 import { config } from "dotenv"
 
@@ -24,6 +25,7 @@ app.use((_req, res, next) => {
 app.use(express.static(STATIC_DIR))
     .use("/api/v1/users", usersController)
     .use("/api/v1/activities", activitiesController)
+    .use("/api/v1/friends", friendsController)
 
 //////// Error handling
 app.use(

@@ -1,6 +1,3 @@
-/*  B"H
- */
-
 export type DataEnvelope<T> = {
     data: T
     isSuccess: boolean

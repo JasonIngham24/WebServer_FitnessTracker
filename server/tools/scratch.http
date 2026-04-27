@@ -9,4 +9,60 @@ GET http://localhost:3000/api/v1/users
 GET http://localhost:3000/api/v1/users/1
 
 ###
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "username": "johndoe",
+  "email": "john.doe@example.com"
+}
+
+###
+PATCH http://localhost:3000/api/v1/users/5
+Content-Type: application/json
+
+{
+  "firstname": "Jane",
+  "lastname": "Smith",
+  "username": "janesmith",
+  "email": "jane.smith@example.com"
+}
+
+###
+DELETE http://localhost:3000/api/v1/users/8
+
+###
 GET http://localhost:3000/api/v1/activities
+
+###
+GET http://localhost:3000/api/v1/activities/1
+
+###
+POST http://localhost:3000/api/v1/activities
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "activity": "Swimming",
+  "duration": 60,
+  "date": "2024-06-01"
+}
+
+###
+PATCH http://localhost:3000/api/v1/activities/4
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "activity": "Cycling",
+  "duration": 90,
+  "date": "2024-06-01"
+}
+
+###
+DELETE http://localhost:3000/api/v1/activities/4
+
+###
+GET http://localhost:3000/api/v1/friends
