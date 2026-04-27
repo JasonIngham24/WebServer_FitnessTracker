@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { getMyFriends } from '../services/session'
-import { activities } from '../data/activities'
+import { useActivities } from '../stores/activities'
+import { onMounted, ref } from 'vue'
+import type { Activity, User } from '../../../server/types'
 
-const friends = getMyFriends()
+const friends = ref<User[]>([])
+const { activities, fetchActivities } = useActivities()
+
+onMounted(async () => {
+    await fetchActivities()
+    friends.value = await getMyFriends()
+})
 
 function getFriendActivities(friendId: number) {
-  return activities.value.filter((a) => a.userId === friendId)
+  return activities.filter((a: Activity) => a.userId === friendId)
 }
 </script>
 

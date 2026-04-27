@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { users as initialUsers } from '../data/users'
-import type { User } from '../types/index'
-import { ref } from 'vue'
+import { useUsers } from '../stores/users'
+import type { User } from '../../../server/types/index'
+import { onMounted, ref } from 'vue'
 
-const users = ref<User[]>(initialUsers)
+const { users, fetchUsers } = useUsers()
 const editingUser = ref<User | null>(null)
+
+onMounted(fetchUsers)
 
 function addUser() {
   // For simplicity, we'll just log to console.
@@ -17,16 +19,16 @@ function editUser(user: User) {
 }
 
 function deleteUser(user: User) {
-  const index = users.value.findIndex((u) => u.id === user.id)
+  const index = users.findIndex((u: User) => u.id === user.id)
   if (index !== -1) {
-    users.value.splice(index, 1)
+    users.splice(index, 1)
   }
 }
 
 function handleUpdateUser(updatedUser: User) {
-  const index = users.value.findIndex((u) => u.id === updatedUser.id)
+  const index = users.findIndex((u: User) => u.id === updatedUser.id)
   if (index !== -1) {
-    users.value[index] = updatedUser
+    users[index] = updatedUser
   }
   editingUser.value = null
 }

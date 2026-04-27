@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { login, getAllUsers } from '../services/session'
+import { login } from '../services/session'
+import { useUsers } from '../stores/users'
 
 const router = useRouter()
-const users = getAllUsers()
+const { users, fetchUsers } = useUsers()
 const selectedUser = ref('')
 
-function onLogin() {
-  if (login(selectedUser.value)) {
+onMounted(fetchUsers)
+
+async function onLogin() {
+  if (await login(selectedUser.value)) {
     router.push('/')
   } else {
     alert('Please select a user')

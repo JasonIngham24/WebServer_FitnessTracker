@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Activity, User } from '../types/index'
-import { useSession } from '../services/session'
-import { users } from '../data/users'
+import { ref, onMounted } from 'vue'
+import type { Activity, User } from '../../../server/types/index'
+import { getMyFriends } from '../services/session'
 
 const props = defineProps<{
   activity: Activity
@@ -10,9 +9,12 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
-const session = useSession()
-const friends = ref<User[]>(users.filter((u) => session.user?.friends.includes(u.id)))
+const friends = ref<User[]>([])
 const selectedFriend = ref<number | null>(null)
+
+onMounted(async () => {
+    friends.value = await getMyFriends()
+})
 
 function share() {
   if (selectedFriend.value) {

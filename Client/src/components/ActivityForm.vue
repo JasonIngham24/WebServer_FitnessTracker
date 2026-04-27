@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Activity } from '../types/index'
+import type { Activity } from '../../../server/types/index'
 
 const emit = defineEmits(['add-activity'])
 

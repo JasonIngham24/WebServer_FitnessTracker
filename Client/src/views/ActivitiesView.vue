@@ -1,44 +1,37 @@
 <script setup lang="ts">
 import { useSession } from '../services/session'
-import { activities } from '../data/activities'
-import type { Activity } from '../types/index'
-import { computed, ref } from 'vue'
+import type { Activity } from '../../../server/types/index'
+import { computed, ref, onMounted } from 'vue'
 import ActivityForm from '../components/ActivityForm.vue'
 import ShareActivity from '../components/ShareActivity.vue'
+import { useActivities } from '../stores/activities'
 
 const session = useSession()
+const { activities, fetchActivities, addActivity, deleteActivity: deleteActivityFromStore } = useActivities()
 const showAddActivityForm = ref(false)
 const showShareModal = ref(false)
 const selectedActivity = ref<Activity | null>(null)
+
+onMounted(fetchActivities)
 
 const myActivities = computed(() => {
   if (!session.user) {
     return []
   }
-  return activities.value.filter((a) => a.userId === session.user?.id)
+  return activities.filter((a: Activity) => a.userId === session.user?.id)
 })
 
-function addActivity() {
+function addActivityClick() {
   showAddActivityForm.value = !showAddActivityForm.value
 }
 
-function handleNewActivity(newActivity: Omit<Activity, 'id' | 'userId'>) {
-  const user = session.user
-  if (user) {
-    activities.value.push({
-      ...newActivity,
-      id: activities.value.length + 1,
-      userId: user.id,
-    })
+async function handleNewActivity(newActivity: Omit<Activity, 'id' | 'userId'>) {
+    await addActivity(newActivity)
     showAddActivityForm.value = false
-  }
 }
 
-function deleteActivity(activity: Activity) {
-  const index = activities.value.findIndex((a) => a.id === activity.id)
-  if (index !== -1) {
-    activities.value.splice(index, 1)
-  }
+async function deleteActivity(activity: Activity) {
+    await deleteActivityFromStore(activity.id)
 }
 
 function shareActivity(activity: Activity) {
@@ -58,7 +51,7 @@ function formatDistance(distanceInMiles: number): string {
 <template>
   <div class="container notification is-dark">
     <h1 class="title">My Activities</h1>
-    <button class="button is-primary is-fullwidth" @click="addActivity">Add Workout</button>
+    <button class="button is-primary is-fullwidth" @click="addActivityClick">Add Workout</button>
     <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
     <ShareActivity
       v-if="showShareModal && selectedActivity"

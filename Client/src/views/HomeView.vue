@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { useSession } from '../services/session'
-import { computed } from 'vue'
-import { activities } from '../data/activities'
-import type { Activity } from '../types/index'
+import { computed, onMounted } from 'vue'
+import { useActivities } from '../stores/activities'
+import type { Activity } from '../../../server/types/index'
 
 const session = useSession()
+const { activities, fetchActivities } = useActivities()
+
+onMounted(fetchActivities)
 
 const userActivities = computed(() => {
   if (!session.user) {
     return []
   }
-  return activities.value.filter((activity) => activity.userId === session.user?.id)
+  return activities.filter((activity: Activity) => activity.userId === session.user?.id)
 })
 
 const today = new Date('2026-03-15')
 
 const dailyActivities = computed(() => {
-  return userActivities.value.filter((activity) => {
+  return userActivities.value.filter((activity: Activity) => {
     const activityDate = new Date(activity.date)
     return activityDate.toDateString() === today.toDateString()
   })
@@ -29,7 +32,7 @@ const endOfWeek = new Date(startOfWeek)
 endOfWeek.setDate(startOfWeek.getDate() + 6)
 
 const weeklyActivities = computed(() => {
-  return userActivities.value.filter((activity) => {
+  return userActivities.value.filter((activity: Activity) => {
     const activityDate = new Date(activity.date)
     return activityDate >= startOfWeek && activityDate <= endOfWeek
   })
@@ -38,7 +41,7 @@ const weeklyActivities = computed(() => {
 function calculateStats(activityList: Activity[]) {
   const totalDistance = activityList.reduce((sum, activity) => sum + (activity.distance || 0), 0)
   const totalDuration = activityList.reduce((sum, activity) => sum + activity.duration, 0)
-  const totalCalories = activityList.reduce((sum, activity) => sum + activity.calories, 0)
+  const totalCalories = activityList.reduce((sum, activity) => sum + (activity.calories || 0), 0)
 
   const activityCounts: { [key: string]: number } = {}
   activityList.forEach((activity) => {
