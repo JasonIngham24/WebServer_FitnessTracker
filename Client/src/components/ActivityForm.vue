@@ -41,7 +41,7 @@ function handleSubmit() {
 
   const imageUrl = activityImageMap[activityType.value]
 
-  const newActivity: Omit<Activity, 'id' | 'userId' | 'calories'> & {
+  const newActivity: Omit<Activity, 'id' | 'user_id' | 'calories'> & {
     calories?: number
     distanceUnit?: string
   } = {

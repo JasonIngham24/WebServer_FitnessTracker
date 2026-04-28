@@ -1,29 +1,43 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { Activity } from "../../../server/types";
-import { api } from "../services/api";
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import type { Activity } from '../../../server/types'
+import { createActivity, deleteActivityById, getActivities } from '../services/activities'
+import { useSessionStore } from './session'
 
-export const useActivities = defineStore("activities", () => {
-    const activities = ref<Activity[]>([]);
+export const useActivities = defineStore('activities', () => {
+  const activities = ref<Activity[]>([])
+  const totalActivities = ref(0)
+  const session = useSessionStore()
 
-    async function fetchActivities() {
-        activities.value = await api<Activity[]>("activities");
+  async function fetchActivities() {
+    if (!session.user) {
+      activities.value = []
+      totalActivities.value = 0
+      return
     }
+    const result = await getActivities()
+    activities.value = result.data
+    totalActivities.value = result.total
+  }
 
-    async function addActivity(activity: Omit<Activity, "id" | "userId">) {
-        const newActivity = await api<Activity>("activities", activity);
-        activities.value.push(newActivity);
+  async function addActivity(activity: Omit<Activity, 'id' | 'user_id'>) {
+    const result = await createActivity(activity)
+    if (result.isSuccess) {
+      activities.value.push(result.data!)
     }
+    return result
+  }
 
-    async function deleteActivity(id: number) {
-        await api(`activities/${id}`, undefined, { method: "DELETE" });
-        activities.value = activities.value.filter((a) => a.id !== id);
-    }
+  async function deleteActivity(id: number) {
+    await deleteActivityById(id)
+    activities.value = activities.value.filter((a) => a.id !== id)
+  }
 
-    return {
-        activities,
-        fetchActivities,
-        addActivity,
-        deleteActivity,
-    };
-});
+  return {
+    activities,
+    totalActivities,
+    fetchActivities,
+    addActivity,
+    deleteActivity
+  }
+})

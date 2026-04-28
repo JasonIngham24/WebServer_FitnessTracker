@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { login } from '../services/session'
-import { useUsers } from '../stores/users'
+import { useSessionStore } from '../stores/session'
 
 const router = useRouter()
-const { users, fetchUsers } = useUsers()
-const selectedUser = ref('')
-
-onMounted(fetchUsers)
+const session = useSessionStore()
+const email = ref('')
+const password = ref('')
 
 async function onLogin() {
-  if (await login(selectedUser.value)) {
+  const response = await session.login(email.value, password.value)
+  if (response.isSuccess) {
     router.push('/')
   } else {
-    alert('Please select a user')
+    alert('Invalid login')
   }
 }
 </script>
@@ -25,16 +24,15 @@ async function onLogin() {
       <div class="container">
         <h1 class="title">Login</h1>
         <div class="field">
-          <label class="label">Select User</label>
+          <label class="label">Email</label>
           <div class="control">
-            <div class="select is-fullwidth">
-              <select v-model="selectedUser">
-                <option disabled value="">Please select one</option>
-                <option v-for="user in users" :key="user.id" :value="user.username">
-                  {{ user.username }}
-                </option>
-              </select>
-            </div>
+            <input class="input" type="email" v-model="email" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input class="input" type="password" v-model="password" />
           </div>
         </div>
         <div class="field">

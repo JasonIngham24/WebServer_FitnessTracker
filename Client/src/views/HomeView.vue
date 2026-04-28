@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useSession } from '../services/session'
+import { useSessionStore } from '../stores/session'
 import { computed, onMounted } from 'vue'
 import { useActivities } from '../stores/activities'
 import type { Activity } from '../../../server/types/index'
 
-const session = useSession()
+const session = useSessionStore()
 const { activities, fetchActivities } = useActivities()
 
 onMounted(fetchActivities)
@@ -13,7 +13,7 @@ const userActivities = computed(() => {
   if (!session.user) {
     return []
   }
-  return activities.filter((activity: Activity) => activity.userId === session.user?.id)
+  return activities.filter((activity: Activity) => activity.user_id === session.user?.id)
 })
 
 const today = new Date('2026-03-15')

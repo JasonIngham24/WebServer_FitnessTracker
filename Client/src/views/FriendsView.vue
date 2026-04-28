@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMyFriends } from '../services/session'
+import { getFriends } from '../services/friends'
 import { useActivities } from '../stores/activities'
 import { onMounted, ref } from 'vue'
 import type { Activity, User } from '../../../server/types'
@@ -9,11 +9,14 @@ const { activities, fetchActivities } = useActivities()
 
 onMounted(async () => {
     await fetchActivities()
-    friends.value = await getMyFriends()
+    const result = await getFriends()
+    if(result.isSuccess) {
+        friends.value = result.data
+    }
 })
 
 function getFriendActivities(friendId: number) {
-  return activities.filter((a: Activity) => a.userId === friendId)
+  return activities.filter((a: Activity) => a.user_id === friendId)
 }
 </script>
 
@@ -26,7 +29,7 @@ function getFriendActivities(friendId: number) {
           <div class="media">
             <div class="media-left"></div>
             <div class="media-content">
-              <p class="title is-4">{{ friend.firstName }} {{ friend.lastName }}</p>
+              <p class="title is-4">{{ friend.firstname }} {{ friend.lastname }}</p>
               <p class="subtitle is-6">@{{ friend.username }}</p>
               <div class="card-image" v-if="activity.imageUrl">
                 <figure class="image">

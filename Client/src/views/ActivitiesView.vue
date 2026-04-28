@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useSession } from '../services/session'
+import { useSessionStore } from '../stores/session'
 import type { Activity } from '../../../server/types/index'
 import { computed, ref, onMounted } from 'vue'
 import ActivityForm from '../components/ActivityForm.vue'
-import ShareActivity from '../components/ShareActivity.vue'
 import { useActivities } from '../stores/activities'
 
-const session = useSession()
-const { activities, fetchActivities, addActivity, deleteActivity: deleteActivityFromStore } = useActivities()
+const session = useSessionStore()
+const { activities, fetchActivities, addActivity, deleteActivity } = useActivities()
 const showAddActivityForm = ref(false)
 const showShareModal = ref(false)
 const selectedActivity = ref<Activity | null>(null)
@@ -18,20 +17,20 @@ const myActivities = computed(() => {
   if (!session.user) {
     return []
   }
-  return activities.filter((a: Activity) => a.userId === session.user?.id)
+  return activities.filter((a: Activity) => a.user_id === session.user?.id)
 })
 
 function addActivityClick() {
   showAddActivityForm.value = !showAddActivityForm.value
 }
 
-async function handleNewActivity(newActivity: Omit<Activity, 'id' | 'userId'>) {
-    await addActivity(newActivity)
-    showAddActivityForm.value = false
+async function handleNewActivity(newActivity: Omit<Activity, 'id' | 'user_id'>) {
+  await addActivity(newActivity)
+  showAddActivityForm.value = false
 }
 
-async function deleteActivity(activity: Activity) {
-    await deleteActivityFromStore(activity.id)
+async function handleDeleteActivity(activity: Activity) {
+  await deleteActivity(activity.id)
 }
 
 function shareActivity(activity: Activity) {
@@ -63,7 +62,7 @@ function formatDistance(distanceInMiles: number): string {
         <div class="media">
           <div class="media-left"></div>
           <div class="media-content">
-            <p class="title is-4">{{ session.user?.firstName }} {{ session.user?.lastName }}</p>
+            <p class="title is-4">{{ session.user?.firstname }} {{ session.user?.lastname }}</p>
             <p class="subtitle is-6">@{{ session.user?.username }}</p>
             <div class="card-image" v-if="activity.imageUrl">
               <figure class="image">
@@ -88,7 +87,7 @@ function formatDistance(distanceInMiles: number): string {
         <a
           href="#"
           class="notification is-danger card-footer-item text-black"
-          @click.prevent="deleteActivity(activity)"
+          @click.prevent="handleDeleteActivity(activity)"
           >Delete</a
         >
         <a
