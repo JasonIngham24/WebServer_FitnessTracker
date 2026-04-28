@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type { User } from '../../../server/types'
 import { computed, ref } from 'vue'
-import { login as apiLogin } from '../services/users'
+import { login as apiLogin, signup as apiSignup } from '../services/users'
 
 import { api as myApi } from '../services/myFetch'
 
@@ -42,10 +42,21 @@ export const useSessionStore = defineStore('session', () => {
       })
   }
 
-  async function login(email: string, password: string) {
-    const response = await apiLogin(email, password)
+  async function login(email: string) {
+    const response = await apiLogin(email)
     user.value = response.data
     return response
+  }
+
+  async function signup(firstName: string, lastName: string, username: string, email: string) {
+    const response = await apiSignup({ firstName, lastName, username, email })
+    user.value = response.data
+    return response
+  }
+
+  async function loginAsUser(selectedUser: User) {
+    user.value = selectedUser
+    return { isSuccess: true, data: selectedUser }
   }
 
   return {
@@ -56,6 +67,8 @@ export const useSessionStore = defineStore('session', () => {
     isLoading,
     api,
     login,
+    signup,
+    loginAsUser,
   }
 })
 

@@ -4,6 +4,7 @@ import ActivitiesView from '../views/ActivitiesView.vue'
 import FriendsView from '../views/FriendsView.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminView from '../views/AdminView.vue'
+import SignUpView from '../views/SignUpView.vue'
 import { useSessionStore } from '../stores/session'
 
 const router = createRouter({
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUpView
     },
     {
       path: '/admin',

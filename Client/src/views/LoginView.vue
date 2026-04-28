@@ -2,18 +2,19 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSessionStore } from '../stores/session'
+import { useMessageStore } from '../stores/messages'
 
 const router = useRouter()
 const session = useSessionStore()
+const messages = useMessageStore()
 const email = ref('')
-const password = ref('')
 
 async function onLogin() {
-  const response = await session.login(email.value, password.value)
+  const response = await session.login(email.value)
   if (response.isSuccess) {
     router.push('/')
   } else {
-    alert('Invalid login')
+    messages.addMessage('Invalid credentials', 'error')
   }
 }
 </script>
@@ -26,18 +27,12 @@ async function onLogin() {
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
-            <input class="input" type="email" v-model="email" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Password</label>
-          <div class="control">
-            <input class="input" type="password" v-model="password" />
+            <input class="input" type="email" placeholder="Email" v-model="email">
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <button class="button is-primary" @click="onLogin">Login</button>
+            <button class="button is-primary" @click="onLogin" :disabled="!email">Login</button>
           </div>
         </div>
       </div>

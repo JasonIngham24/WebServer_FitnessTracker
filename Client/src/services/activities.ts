@@ -4,8 +4,7 @@ import type { DataListEnvelope, DataEnvelope } from '../../../server/types/dataE
 import { useSessionStore } from '../stores/session';
 
 export function getActivities() {
-    const session = useSessionStore();
-    return api<DataListEnvelope<Activity>>('activities', { user_id: session.user?.id });
+    return api<DataListEnvelope<Activity>>('activities');
 }
 
 export function getActivity(id: number) {

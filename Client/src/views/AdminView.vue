@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useUsers } from '../stores/users'
+import { useUserStore } from '../stores/users'
 import type { User } from '../../../server/types/index'
 import { onMounted, ref } from 'vue'
 
-const { users, fetchUsers } = useUsers()
+const { users, fetchUsers } = useUserStore()
 const editingUser = ref<User | null>(null)
 
 onMounted(fetchUsers)

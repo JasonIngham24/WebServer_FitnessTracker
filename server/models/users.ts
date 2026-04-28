@@ -12,7 +12,7 @@ export async function getAll(params: PagingRequest) {
     let query = db.from(TABLE_NAME).select("*", { count: "estimated" })
 
     if(params?.search) {
-        query = query.or(`email.ilike.%${params.search}%,name.ilike.%${params.search}%`)
+        query = query.or(`email.ilike.%${params.search}%,firstName.ilike.%${params.search}%,lastName.ilike.%${params.search}%`)
     }
     if(params?.sortBy) {
         query = query.order(params.sortBy, { ascending: !params.descending })
@@ -48,9 +48,39 @@ export async function get(id: number): Promise<ItemType> {
     return item as ItemType
 }
 
+export async function getByEmail(email: string): Promise<ItemType> {
+    const db = connect()
+
+    const result = await db.from(TABLE_NAME).select("*").eq("email", email).single()
+    if (result.error) {
+        throw (result.error)
+    }
+    const item = result.data as ItemType
+    if (!item) {
+        const error = { status: 404, message: "User not found" }
+        throw error
+    }
+    return item as ItemType
+}
+
+export async function login(email: string): Promise<ItemType | null> {
+    const db = connect()
+
+    const result = await db.from(TABLE_NAME).select("*").eq("email", email).maybeSingle()
+    if (result.error) {
+        throw (result.error)
+    }
+    return result.data as ItemType | null
+}
+
 export async function create(item: Exclude<ItemType, "id">) {
     const db = connect()
-    const result = await db.from(TABLE_NAME).insert(item).select().single()
+    const { firstName, lastName, ...rest } = item;
+    const result = await db.from(TABLE_NAME).insert({
+        ...rest,
+        first_name: firstName,
+        last_name: lastName
+    }).select().single()
     if (result.error) {
         throw (result.error)
     }

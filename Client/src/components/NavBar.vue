@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useSessionStore } from '@/stores/session';
 
 const isActive = ref(false);
+const session = useSessionStore();
+
+function logout() {
+    session.user = null;
+}
 </script>
 
 <template>
@@ -38,7 +44,7 @@ const isActive = ref(false);
                         Friends
                     </RouterLink>
 
-                    <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-item has-dropdown is-hoverable" v-if="session.user?.role === 'admin'">
                         <a class="navbar-link">
                             Admin
                         </a>
@@ -53,13 +59,18 @@ const isActive = ref(false);
 
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <div class="buttons">
-                            <RouterLink to="/sign-up" active-class="is-active" class="button is-primary">
+                        <div class="buttons" v-if="!session.user">
+                            <RouterLink to="/signup" active-class="is-active" class="button is-primary">
                                 <strong>Sign up</strong>
                             </RouterLink>
                             <RouterLink to="/login" active-class="is-active" class="button is-light">
                                 Log in
                             </RouterLink>
+                        </div>
+                        <div class="buttons" v-else>
+                            <a class="button is-light" @click="logout">
+                                Log out
+                            </a>
                         </div>
                     </div>
                 </div>

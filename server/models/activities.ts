@@ -48,7 +48,7 @@ export async function get(id: number): Promise<ItemType> {
     return item as ItemType
 }
 
-export async function create(item: Exclude<ItemType, "id">) {
+export async function create(item: Omit<ItemType, "id">) {
     const db = connect()
     const result = await db.from(TABLE_NAME).insert(item).select().single()
     if (result.error) {

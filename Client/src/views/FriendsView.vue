@@ -1,53 +1,66 @@
 <script setup lang="ts">
-import { getFriends } from '../services/friends'
 import { useActivities } from '../stores/activities'
-import { onMounted, ref } from 'vue'
-import type { Activity, User } from '../../../server/types'
+import { getFriends } from '../services/friends'
+import { onMounted, ref, computed } from 'vue'
+import type { User } from '../../../server/types'
 
-const friends = ref<User[]>([])
 const { activities, fetchActivities } = useActivities()
+const friends = ref<User[]>([])
 
 onMounted(async () => {
-    await fetchActivities()
-    const result = await getFriends()
-    if(result.isSuccess) {
-        friends.value = result.data
-    }
+  fetchActivities()
+  const result = await getFriends()
+  if (result.isSuccess && result.data) {
+    friends.value = result.data
+  }
 })
 
-function getFriendActivities(friendId: number) {
-  return activities.filter((a: Activity) => a.user_id === friendId)
+const friendsWithActivities = computed(() => {
+  return friends.value.map((friend) => {
+    const friendActivities = activities.filter((activity) => activity.user_id === friend.id)
+    return {
+      ...friend,
+      activities: friendActivities
+    }
+  })
+})
+
+function formatDistance(distanceInMiles: number): string {
+  if (distanceInMiles < 1) {
+    const feet = Math.round(distanceInMiles * 5280)
+    return `${feet} feet`
+  }
+  return `${distanceInMiles.toFixed(2)} miles`
 }
 </script>
 
 <template>
   <div class="container notification is-dark">
     <h1 class="title">Friends' Activities</h1>
-    <div v-for="friend in friends" :key="friend.id">
-      <div v-for="activity in getFriendActivities(friend.id)" :key="activity.id" class="card">
+    <div v-for="friend in friendsWithActivities" :key="friend.id">
+      <div v-for="activity in friend.activities" :key="activity.id" class="card">
         <div class="card-content">
           <div class="media">
-            <div class="media-left"></div>
             <div class="media-content">
-              <p class="title is-4">{{ friend.firstname }} {{ friend.lastname }}</p>
+              <p class="title is-4">{{ friend.firstName }} {{ friend.lastName }}</p>
               <p class="subtitle is-6">@{{ friend.username }}</p>
-              <div class="card-image" v-if="activity.imageUrl">
-                <figure class="image">
-                  <img :src="activity.imageUrl" alt="Activity image" class="activity-image" />
-                </figure>
-              </div>
             </div>
           </div>
+
           <div class="content">
-            {{ activity.activity }}
-            <br />
-            <strong>Duration:</strong> {{ activity.duration }} minutes
-            <br />
-            <div v-if="activity.distance">
-              <strong>Distance:</strong> {{ activity.distance }} Miles
-              <br />
+            <p>
+              <strong>{{ activity.activity }}</strong>
+            </p>
+            <div class="card-image" v-if="activity.imageUrl">
+              <figure class="image is-4by3">
+                <img :src="activity.imageUrl" alt="Activity image" />
+              </figure>
             </div>
-            <time :datetime="activity.date">{{ activity.date }}</time>
+            <p>Duration: {{ activity.duration }} minutes</p>
+            <p v-if="activity.distance">Distance: {{ formatDistance(activity.distance) }}</p>
+            <time :datetime="activity.date">
+              {{ new Date(activity.date).toLocaleDateString() }}
+            </time>
           </div>
         </div>
       </div>
@@ -57,9 +70,11 @@ function getFriendActivities(friendId: number) {
 
 <style scoped>
 .card {
-  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 .activity-image {
+  width: 100%;
+  height: auto;
   object-fit: cover;
   max-height: 15em;
 }

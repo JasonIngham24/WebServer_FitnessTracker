@@ -1,5 +1,3 @@
-/* B"H
- */
 const API_BASE_URL = import.meta.env.VITE_API_ROOT
 
 export default function rest<T>(
@@ -34,6 +32,6 @@ export default function rest<T>(
   })
 }
 
-export function api<T>(endpoint: string, data?: unknown, options: RequestInit = {}) {
-  return rest<T>(`${API_BASE_URL}${endpoint}`, data, options)
+export function api<T>(url: string, data?: unknown, options?: RequestInit) {
+  return rest<T>(`${API_BASE_URL}/${url}`, data, { ...options, credentials: 'include' })
 }

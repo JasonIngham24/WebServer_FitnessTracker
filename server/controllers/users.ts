@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAll, get, create, update, remove } from "../models/users"
+import { getAll, get, create, update, remove, login as loginUser } from "../models/users"
 import { User } from "../types/index"
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes"
 
@@ -7,24 +7,12 @@ const app = Router()
 
 app.get("/", async (req, res) => {
     const { list, count } = await getAll(req.query)
-    const sanitizedUsers = list.map((x) => ({
-        ...x,
-        password: undefined,
-    }))
     const response: DataListEnvelope<User> = {
-        data: sanitizedUsers,
+        data: list,
         isSuccess: true,
         total: count,
     }
     res.send(response)
-})
-    .get("/count", async (req, res) => {
-        const { count } = await getAll(req.query)
-        const response: DataEnvelope<{ count: number }> = {
-            data: { count },
-            isSuccess: true,
-        }
-        res.send(response)
     })
     .get("/:id", async (req, res) => {
         const { id } = req.params
@@ -43,6 +31,24 @@ app.get("/", async (req, res) => {
         }
         res.send(response)
     })
+    .post("/login", async (req, res) => {
+        const { email } = req.body
+        const user = await loginUser(email)
+        if (user) {
+            const response: DataEnvelope<User> = {
+                data: user,
+                isSuccess: true,
+            }
+            res.send(response)
+        } else {
+            const response: DataEnvelope<User> = {
+                data: null,
+                isSuccess: false,
+                message: "Invalid credentials",
+            }
+            res.status(401).send(response)
+        }
+    })
     .patch("/:id", async (req, res) => {
         const { id } = req.params
         const updatedUser = await update(Number(id), req.body)
@@ -58,7 +64,7 @@ app.get("/", async (req, res) => {
         const response: DataEnvelope<User> = {
             data: removedUser,
             isSuccess: true,
-            message: `User ${removedUser.firstname} ${removedUser.lastname} has been removed.`,
+            message: `User ${removedUser.firstName} ${removedUser.lastName} has been removed.`,
         }
         res.send(response)
     })

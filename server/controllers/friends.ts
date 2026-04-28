@@ -2,8 +2,27 @@ import { Router } from "express"
 import { getAll, get, add, remove } from "../models/friends"
 import { Friend } from "../types/index"
 import { DataEnvelope, DataListEnvelope } from "../types/dataEnvelopes"
+import { getFriendActivities } from "../models/friends"
 
 const app = Router()
+
+app.get('/activities', async (req, res) => {
+  const userId = req.session.user?.id || (req.query.user_id as string)
+  if (userId) {
+    const { list, count } = await getFriendActivities(Number(userId))
+    const response: DataListEnvelope<any> = {
+      data: list,
+      isSuccess: true,
+      total: count
+    }
+    res.send(response)
+  } else {
+    res.status(401).send({
+      isSuccess: false,
+      message: 'Not logged in'
+    })
+  }
+})
 
 app.get("/", async (req, res) => {
     const { list, count } = await getAll(req.query)
@@ -14,14 +33,6 @@ app.get("/", async (req, res) => {
         total: count,
     }
     res.send(response)
-})
-    .get("/count", async (req, res) => {
-        const { count } = await getAll(req.query)
-        const response: DataEnvelope<{ count: number }> = {
-            data: { count },
-            isSuccess: true,
-        }
-        res.send(response)
     })
     .get("/:id", async (req, res) => {
         const { id } = req.params

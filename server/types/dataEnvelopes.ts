@@ -1,5 +1,5 @@
 export type DataEnvelope<T> = {
-    data: T
+    data: T | null
     isSuccess: boolean
     message?: string
 }

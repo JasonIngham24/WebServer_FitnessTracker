@@ -16,7 +16,9 @@ export const useActivities = defineStore('activities', () => {
       return
     }
     const result = await getActivities()
-    activities.value = result.data
+    if (result.data) {
+      activities.value = result.data
+    }
     totalActivities.value = result.total
   }
 

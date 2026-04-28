@@ -14,15 +14,7 @@ app.get("/", async (req, res) => {
         total: count,
     }
     res.send(response)
-})
-    .get("/count", async (req, res) => {
-        const { count } = await getAll(req.query)
-        const response: DataEnvelope<{ count: number }> = {
-            data: { count },
-            isSuccess: true,
-        }
-        res.send(response)
-    })
+    }) 
     .get("/:id", async (req, res) => {
         const { id } = req.params
         const response: DataEnvelope<Activity> = {

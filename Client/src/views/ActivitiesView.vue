@@ -33,11 +33,6 @@ async function handleDeleteActivity(activity: Activity) {
   await deleteActivity(activity.id)
 }
 
-function shareActivity(activity: Activity) {
-  selectedActivity.value = activity
-  showShareModal.value = true
-}
-
 function formatDistance(distanceInMiles: number): string {
   if (distanceInMiles < 1) {
     const feet = Math.round(distanceInMiles * 5280)
@@ -62,7 +57,7 @@ function formatDistance(distanceInMiles: number): string {
         <div class="media">
           <div class="media-left"></div>
           <div class="media-content">
-            <p class="title is-4">{{ session.user?.firstname }} {{ session.user?.lastname }}</p>
+            <p class="title is-4">{{ session.user?.firstName }} {{ session.user?.lastName }}</p>
             <p class="subtitle is-6">@{{ session.user?.username }}</p>
             <div class="card-image" v-if="activity.imageUrl">
               <figure class="image">
@@ -89,12 +84,6 @@ function formatDistance(distanceInMiles: number): string {
           class="notification is-danger card-footer-item text-black"
           @click.prevent="handleDeleteActivity(activity)"
           >Delete</a
-        >
-        <a
-          href="#"
-          class="notification is-info card-footer-item text-black"
-          @click.prevent="shareActivity(activity)"
-          >Share</a
         >
       </footer>
     </div>

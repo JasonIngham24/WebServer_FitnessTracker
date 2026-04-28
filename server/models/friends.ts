@@ -6,31 +6,37 @@ export const TABLE_NAME = "friends"
 
 type ItemType = Friend
 
-export async function getAll(params: PagingRequest) {
-    const db = connect()
+export async function getAll(params: PagingRequest & { user_id?: number }) {
+  const db = connect()
 
-    let query = db.from(TABLE_NAME).select("*", { count: "estimated" })
+  let query = db.from(TABLE_NAME).select('*, friend:users!friends_friend_id_fkey(*)', {
+    count: 'estimated'
+  })
 
-    if(params?.search) {
-        query = query.or(`user_id.ilike.%${params.search}%,friend_id.ilike.%${params.search}%`)
-    }
-    if(params?.sortBy) {
-        query = query.order(params.sortBy, { ascending: !params.descending })
-    }
-    const page = params?.page || 1
-    const pageSize = params?.pageSize || 10
-    const start = (page - 1) * pageSize
-    query = query.range(start, start + pageSize - 1)
+  if (params?.user_id) {
+    query = query.eq('user_id', params.user_id)
+  }
 
-    const result = await query
-    if (result.error) {
-        throw (await result.error)
-    }
+  if (params?.search) {
+    query = query.or(`user_id.ilike.%${params.search}%,friend_id.ilike.%${params.search}%`)
+  }
+  if (params?.sortBy) {
+    query = query.order(params.sortBy, { ascending: !params.descending })
+  }
+  const page = params?.page || 1
+  const pageSize = params?.pageSize || 10
+  const start = (page - 1) * pageSize
+  query = query.range(start, start + pageSize - 1)
 
-    const list = result.data as ItemType[]
-    const count = result.count ?? 0
+  const result = await query
+  if (result.error) {
+    throw await result.error
+  }
 
-    return { list, count }
+  const list = result.data.map((x) => x.friend) as ItemType[]
+  const count = result.count ?? 0
+
+  return { list, count }
 }
 
 export async function get(id: number): Promise<ItemType> {
@@ -68,4 +74,15 @@ export async function remove(id: number) {
 
     const removedItemType = result.data as ItemType
     return removedItemType as ItemType
+}
+
+export async function getFriendActivities(user_id: number) {
+    const db = connect()
+    const result = await db.rpc('get_friends_activities', { p_user_id: user_id })
+    if (result.error) {
+        throw (result.error)
+    }
+    const list = result.data as any[]
+    const count = list.length
+    return { list, count }
 }

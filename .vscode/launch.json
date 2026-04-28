@@ -19,12 +19,19 @@
       ]
     },
     {
+      "name": "Frontend: Vite Dev Server",
+      "type": "node-terminal",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/client",
+      "command": "npm run dev"
+    },
+    {
       "name": "Frontend: Debug in Edge",
       "type": "msedge",
       "request": "launch",
       "preLaunchTask": "Frontend: Start Vite",
       "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}/client",
+      "webRoot": "${workspaceFolder}/Client",
       "sourceMaps": true
     }
   ],

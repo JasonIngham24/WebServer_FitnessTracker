@@ -16,7 +16,7 @@ const userActivities = computed(() => {
   return activities.filter((activity: Activity) => activity.user_id === session.user?.id)
 })
 
-const today = new Date('2026-03-15')
+const today = new Date('2026-04-27')
 
 const dailyActivities = computed(() => {
   return userActivities.value.filter((activity: Activity) => {
