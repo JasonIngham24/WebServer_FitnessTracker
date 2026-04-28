@@ -53,8 +53,8 @@ function handleUpdateUser(updatedUser: User) {
       <tbody>
         <tr v-for="user in users" :key="user.id">
           <td>{{ user.id }}</td>
-          <td>{{ user.firstname }}</td>
-          <td>{{ user.lastname }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.role }}</td>
@@ -79,13 +79,13 @@ function handleUpdateUser(updatedUser: User) {
             <div class="field">
               <label class="label">First Name</label>
               <div class="control">
-                <input class="input" type="text" v-model="editingUser!.firstname" />
+                <input class="input" type="text" v-model="editingUser!.firstName" />
               </div>
             </div>
             <div class="field">
               <label class="label">Last Name</label>
               <div class="control">
-                <input class="input" type="text" v-model="editingUser!.lastname" />
+                <input class="input" type="text" v-model="editingUser!.lastName" />
               </div>
             </div>
             <div class="field">
