@@ -22,8 +22,8 @@ export function deleteUserById(id: number) {
     return api<DataEnvelope<User>>(`users/${id}`, undefined, { method: 'DELETE' });
 }
 
-export function login(email: string) {
-    return api<DataEnvelope<User>>('users/login', { email });
+export function login(username: string) {
+    return api<DataEnvelope<User>>('users/login', { username });
 }
 
 export function signup(user: Omit<User, 'id' | 'role'>) {

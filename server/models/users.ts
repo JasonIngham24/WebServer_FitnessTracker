@@ -63,10 +63,10 @@ export async function getByEmail(email: string): Promise<ItemType> {
     return item as ItemType
 }
 
-export async function login(email: string): Promise<ItemType | null> {
+export async function login(username: string): Promise<ItemType | null> {
     const db = connect()
 
-    const result = await db.from(TABLE_NAME).select("*").eq("email", email).maybeSingle()
+    const result = await db.from(TABLE_NAME).select("*").eq("username", username).maybeSingle()
     if (result.error) {
         throw (result.error)
     }

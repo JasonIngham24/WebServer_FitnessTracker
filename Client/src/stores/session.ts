@@ -42,8 +42,8 @@ export const useSessionStore = defineStore('session', () => {
       })
   }
 
-  async function login(email: string) {
-    const response = await apiLogin(email)
+  async function login(username: string) {
+    const response = await apiLogin(username)
     user.value = response.data
     return response
   }

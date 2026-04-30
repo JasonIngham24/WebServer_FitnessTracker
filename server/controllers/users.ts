@@ -32,8 +32,8 @@ app.get("/", async (req, res) => {
         res.send(response)
     })
     .post("/login", async (req, res) => {
-        const { email } = req.body
-        const user = await loginUser(email)
+        const { username } = req.body
+        const user = await loginUser(username)
         if (user) {
             const response: DataEnvelope<User> = {
                 data: user,
