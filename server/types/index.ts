@@ -12,8 +12,8 @@ export type Activity = {
 export type User = {
   id: number
   role: 'admin' | 'user'
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   username: string
   email: string
 }

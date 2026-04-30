@@ -48,8 +48,8 @@ export const useSessionStore = defineStore('session', () => {
     return response
   }
 
-  async function signup(firstName: string, lastName: string, username: string, email: string) {
-    const response = await apiSignup({ firstName, lastName, username, email })
+  async function signup(firstname: string, lastname: string, username: string, email: string) {
+    const response = await apiSignup({ firstname, lastname, username, email })
     user.value = response.data
     return response
   }
