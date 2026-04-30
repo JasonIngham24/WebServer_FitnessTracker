@@ -57,7 +57,7 @@ function formatDistance(distanceInMiles: number): string {
         <div class="media">
           <div class="media-left"></div>
           <div class="media-content">
-            <p class="title is-4">{{ session.user?.firstName }} {{ session.user?.lastName }}</p>
+            <p class="title is-4">{{ session.user?.firstname }} {{ session.user?.lastname }}</p>
             <p class="subtitle is-6">@{{ session.user?.username }}</p>
             <div class="card-image" v-if="activity.imageUrl">
               <figure class="image">

@@ -42,7 +42,7 @@ function formatDistance(distanceInMiles: number): string {
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title is-4">{{ friend.firstName }} {{ friend.lastName }}</p>
+              <p class="title is-4">{{ friend.firstname }} {{ friend.lastname }}</p>
               <p class="subtitle is-6">@{{ friend.username }}</p>
             </div>
           </div>

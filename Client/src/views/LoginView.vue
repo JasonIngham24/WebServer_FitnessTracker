@@ -15,7 +15,7 @@ const users = ref<User[]>([])
 onMounted(async () => {
   const response = await getUsers()
   if (response.isSuccess) {
-    users.value = response.data
+    users.value = response.data ?? []
   }
 })
 
