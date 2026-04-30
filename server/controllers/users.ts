@@ -64,7 +64,7 @@ app.get("/", async (req, res) => {
         const response: DataEnvelope<User> = {
             data: removedUser,
             isSuccess: true,
-            message: `User ${removedUser.firstName} ${removedUser.lastName} has been removed.`,
+            message: `User ${removedUser.firstname} ${removedUser.lastname} has been removed.`,
         }
         res.send(response)
     })

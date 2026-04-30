@@ -75,11 +75,11 @@ export async function login(username: string): Promise<ItemType | null> {
 
 export async function create(item: Exclude<ItemType, "id">) {
     const db = connect()
-    const { firstName, lastName, ...rest } = item;
+    const { firstname, lastname, ...rest } = item;
     const result = await db.from(TABLE_NAME).insert({
         ...rest,
-        first_name: firstName,
-        last_name: lastName
+        first_name: firstname,
+        last_name: lastname
     }).select().single()
     if (result.error) {
         throw (result.error)
