@@ -37,7 +37,7 @@ app.use(express.static(STATIC_DIR))
     .use("/api/v1/friends", friendsController)
 
 // All other GET requests not handled before will return the client's index.html
-app.get('*', (_req, res) => {
+app.get('/*', (_req, res) => {
     res.sendFile(path.join(STATIC_DIR, 'index.html'));
 });
 
