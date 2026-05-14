@@ -36,9 +36,13 @@ app.use(express.static(STATIC_DIR))
     .use("/api/v1/activities", activitiesController)
     .use("/api/v1/friends", friendsController)
 
-// All other GET requests not handled before will return the client's index.html
-app.get('/*', (_req, res) => {
-    res.sendFile(path.join(STATIC_DIR, 'index.html'));
+// Fallback to client
+app.use((req, res, _next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api/') && !path.extname(req.path)) {
+        res.sendFile(path.resolve(STATIC_DIR, 'index.html'));
+    } else {
+        _next();
+    }
 });
 
 //////// Error handling
