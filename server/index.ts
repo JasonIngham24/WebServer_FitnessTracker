@@ -12,7 +12,7 @@ import path from "path"
 
 const PORT = process.env.PORT ?? 3000
 const SERVER = process.env.SERVER ?? "localhost"
-const STATIC_DIR = process.env.STATIC_DIR ?? "client/dist"
+const STATIC_DIR = process.env.STATIC_DIR ?? "Client/dist"
 
 const app = express()
 
