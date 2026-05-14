@@ -13,6 +13,7 @@ import path from "path"
 const PORT = process.env.PORT ?? 3000
 const SERVER = process.env.SERVER ?? "localhost"
 const STATIC_DIR = process.env.STATIC_DIR ?? "Client/dist"
+const staticPath = path.resolve(process.cwd(), STATIC_DIR);
 
 const app = express()
 
@@ -31,7 +32,7 @@ app.use(
     }))
 
 ///////// Routes
-app.use(express.static(path.join(process.cwd(), STATIC_DIR)))
+app.use(express.static(staticPath))
     .use("/api/v1/users", usersController)
     .use("/api/v1/activities", activitiesController)
     .use("/api/v1/friends", friendsController)
@@ -39,7 +40,7 @@ app.use(express.static(path.join(process.cwd(), STATIC_DIR)))
 // Fallback to client
 app.use((req, res, _next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api/') && !path.extname(req.path)) {
-        res.sendFile(path.join(process.cwd(), STATIC_DIR, 'index.html'));
+        res.sendFile(path.join(staticPath, 'index.html'));
     } else {
         _next();
     }
