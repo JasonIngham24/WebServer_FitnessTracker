@@ -1,23 +1,32 @@
 <script setup lang="ts">
 import { useSessionStore } from '../stores/session'
-import type { Activity } from '../../../server/types/index'
-import { computed, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import ActivityForm from '../components/ActivityForm.vue'
 import { useActivities } from '../stores/activities'
+import { useInfiniteScroll } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
+import type { Activity } from '../../../server/types'
 
 const session = useSessionStore()
-const { activities, fetchActivities, addActivity, deleteActivity } = useActivities()
+const activitiesStore = useActivities()
+const { activities, totalActivities, loading } = storeToRefs(activitiesStore)
+const { fetchActivities, addActivity, deleteActivity, resetActivities } = activitiesStore
 const showAddActivityForm = ref(false)
-const showShareModal = ref(false)
-const selectedActivity = ref<Activity | null>(null)
 
-onMounted(fetchActivities)
-
-const myActivities = computed(() => {
-  if (!session.user) {
-    return []
+useInfiniteScroll(
+  window,
+  async () => {
+    await fetchActivities()
+  },
+  {
+    distance: 10,
+    canLoadMore: () => activities.value.length < (totalActivities.value ?? 0)
   }
-  return activities.filter((a: Activity) => a.user_id === session.user?.id)
+)
+
+onMounted(() => {
+  resetActivities()
+  fetchActivities()
 })
 
 function addActivityClick() {
@@ -29,8 +38,8 @@ async function handleNewActivity(newActivity: Omit<Activity, 'id' | 'user_id'>) 
   showAddActivityForm.value = false
 }
 
-async function handleDeleteActivity(activity: Activity) {
-  await deleteActivity(activity.id)
+async function handleDeleteActivity(activityId: number) {
+  await deleteActivity(activityId)
 }
 
 function formatDistance(distanceInMiles: number): string {
@@ -43,16 +52,13 @@ function formatDistance(distanceInMiles: number): string {
 </script>
 
 <template>
-  <div class="container notification is-dark">
+  <div class="container notification is-dark" ref="scrollContainer">
     <h1 class="title">My Activities</h1>
     <button class="button is-primary is-fullwidth" @click="addActivityClick">Add Workout</button>
     <ActivityForm v-if="showAddActivityForm" @add-activity="handleNewActivity" />
-    <ShareActivity
-      v-if="showShareModal && selectedActivity"
-      :activity="selectedActivity"
-      @close="showShareModal = false"
-    />
-    <div class="card" v-for="activity in myActivities" :key="activity.id">
+    <p>Showing {{ activities.length }} of {{ totalActivities }}</p>
+
+    <div class="card" v-for="activity in activities" :key="activity.id">
       <div class="card-content">
         <div class="media">
           <div class="media-left"></div>
@@ -82,10 +88,20 @@ function formatDistance(distanceInMiles: number): string {
         <a
           href="#"
           class="notification is-danger card-footer-item text-black"
-          @click.prevent="handleDeleteActivity(activity)"
+          @click.prevent="handleDeleteActivity(activity.id)"
           >Delete</a
         >
       </footer>
+    </div>
+
+    <div v-if="loading" class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-4 is-offset-4">
+            <div class="skeleton-block"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -98,10 +114,13 @@ function formatDistance(distanceInMiles: number): string {
   margin-bottom: 0em;
 }
 .activity-image {
+  max-height: 400px;
   object-fit: cover;
-  max-height: 15em;
 }
-.card-footer-item {
-  text-decoration: none;
+.skeleton-block {
+  background: #e0e0e0;
+  height: 1rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
 }
 </style>

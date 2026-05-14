@@ -3,8 +3,9 @@ import type { Activity } from '../../../server/types/index';
 import type { DataListEnvelope, DataEnvelope } from '../../../server/types/dataEnvelopes';
 import { useSessionStore } from '../stores/session';
 
-export function getActivities() {
-    return api<DataListEnvelope<Activity>>('activities');
+export function getActivities(args?: { page?: number; pageSize?: number }) {
+  const queryString = args ? `?${new URLSearchParams(Object.entries(args).map(([key, value]) => [key, String(value)])).toString()}` : '';
+  return api<DataListEnvelope<Activity>>(`activities${queryString}`);
 }
 
 export function getActivity(id: number) {
