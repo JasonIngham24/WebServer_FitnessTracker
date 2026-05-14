@@ -7,6 +7,7 @@ import usersController from "./controllers/users"
 import activitiesController from "./controllers/activities"
 import friendsController from "./controllers/friends"
 import { DataEnvelope } from "./types/dataEnvelopes"
+import path from "path"
 
 
 const PORT = process.env.PORT ?? 3000
@@ -34,6 +35,11 @@ app.use(express.static(STATIC_DIR))
     .use("/api/v1/users", usersController)
     .use("/api/v1/activities", activitiesController)
     .use("/api/v1/friends", friendsController)
+
+// All other GET requests not handled before will return the client's index.html
+app.get('*', (_req, res) => {
+    res.sendFile(path.join(STATIC_DIR, 'index.html'));
+});
 
 //////// Error handling
 app.use(
