@@ -31,7 +31,7 @@ app.use(
     }))
 
 ///////// Routes
-app.use(express.static(STATIC_DIR))
+app.use(express.static(path.join(process.cwd(), STATIC_DIR)))
     .use("/api/v1/users", usersController)
     .use("/api/v1/activities", activitiesController)
     .use("/api/v1/friends", friendsController)
@@ -39,7 +39,7 @@ app.use(express.static(STATIC_DIR))
 // Fallback to client
 app.use((req, res, _next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api/') && !path.extname(req.path)) {
-        res.sendFile(path.join(__dirname, '..', STATIC_DIR, 'index.html'));
+        res.sendFile(path.join(process.cwd(), STATIC_DIR, 'index.html'));
     } else {
         _next();
     }
