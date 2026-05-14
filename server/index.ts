@@ -39,7 +39,7 @@ app.use(express.static(STATIC_DIR))
 // Fallback to client
 app.use((req, res, _next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api/') && !path.extname(req.path)) {
-        res.sendFile(path.resolve(STATIC_DIR, 'index.html'));
+        res.sendFile(path.join(__dirname, '..', STATIC_DIR, 'index.html'));
     } else {
         _next();
     }
