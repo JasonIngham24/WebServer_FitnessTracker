@@ -10,7 +10,7 @@ import type { Activity } from '../../../server/types'
 const session = useSessionStore()
 const activitiesStore = useActivities()
 const { activities, totalActivities, loading } = storeToRefs(activitiesStore)
-const { fetchActivities, addActivity, deleteActivity, resetActivities } = activitiesStore
+const { fetchActivities, addActivity, deleteActivity, resetActivities, hasMore } = activitiesStore
 const showAddActivityForm = ref(false)
 
 useInfiniteScroll(
@@ -20,7 +20,7 @@ useInfiniteScroll(
   },
   {
     distance: 10,
-    canLoadMore: () => activities.value.length < (totalActivities.value ?? 0)
+    canLoadMore: () => hasMore && !loading.value,
   }
 )
 
